@@ -15,7 +15,7 @@ class Ingredient(models.Model):
     in_stock = models.FloatField(default=0)
     price = models.DecimalField(blank=False, max_digits=6, decimal_places=2, validators=[MinValueValidator(limit_value=0.01)])
     def __str__(self):
-        return f'{self.name} /{self.unit}'
+        return self.name
     def get_absolute_url(self):
         return reverse_lazy('ingredients')
 

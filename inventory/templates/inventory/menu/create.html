@@ -1,39 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'inventory/menu/recipe_requirements_form.html' %}
 
 {% block titlebar %}Add New Menu Item{% endblock %}
 
-{% block content %}
+{% block beforeform %}
 <h1>Add new menu item</h1>
 <form method="post">
     {% csrf_token %}
     <div class="horizontal-form">
         <div>
-            {{ form.as_p }}
+            {% if not form.hide_errors %}
+                {{ form.as_p }}
+            {% else %}
+                <p>
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                </p>
+                <p>
+                    {{ form.price.label_tag }}
+                    {{ form.price }}
+                </p>
+            {% endif %}
         </div>
         <div>
             <label for="recipe-requirements">Recipe requirements:</label>
             <ol id="recipe-requirements" class="horizontal-form">
-                <div style="display: none;">
-                    {{ formset }}
-                </div>
+                {% endblock %}
+                {% block afterform %}
             </ol>
-            <script>
-                const ingredients = document.querySelector('#recipe-requirements')
-                const form = document.querySelector('form')
-                function refreshRecipeRequirementsForm() {
-                    formdata = new FormData(form)
-                    fetch("{% url 'reciperequirementsform' %}", {
-                        method: 'POST',
-                        body: formdata
-                    })
-                    .then(response => response.text())
-                    .then(response => ingredients.innerHTML = response)
-                }
-                refreshRecipeRequirementsForm()
-            </script>
         </div>
-
     </div>
-    <input type="submit">
+    <input formaction="{% url 'createmenuitem' %}" id="manage-form" type="submit" style="display: none;" formnovalidate>
+    <input formaction="{% url 'createmenuitem' 'create' %}" type="submit">
 </form>
 {% endblock %}

@@ -34,51 +34,53 @@ class DeleteIngredient(LoginRequiredMixin, DeleteView):
         return reverse_lazy('ingredients')
 
 @login_required
-def CreateMenuItem(request):
-    renderForm = MenuItemForm
-    renderFormset = RecipeRequirementsForm()
+def CreateMenuItem(request, create=None):
+    # form builders
+    form = MenuItemForm
+    formset = RecipeRequirementsForm()
     if request.method == 'POST':
-        form = MenuItemForm(request.POST)
-        formset = RecipeRequirementsForm()
-        if form.is_valid():
-            newMenuItem = form.save(commit=False)
-            formset = formset(request.POST, instance=newMenuItem)
-            if formset.is_valid():
-                form.save()
-                formset.save()
-                return redirect('menu')
-        print(formset.errors)
-        renderForm = form
-        renderFormset = formset
+        # update form
+        form = form(request.POST)
+        if create == 'create':
+            # it is final form, try to create stuff
+            if form.is_valid():
+                newMenuItem = form.save(commit=False)
+                formset = formset(request.POST, instance=newMenuItem)
+                if formset.is_valid():
+                    form.save()
+                    formset.save()
+                    return redirect('menu')
+            else:
+                formset = formset(request.POST)
+        else:
+            # they want the form modified
+            formset = manageRecipeRequirementsForm(formset(request.POST))
+            form.hide_errors = True
+            formset.hide_errors = True
+    else:
+        # if it's get request then formset has no initial context
+        formset = formset()
     return render(request, 'inventory/menu/create.html', {
-        'form': renderForm,
-        'formset': renderFormset
+        'form': form,
+        'formset': formset
     })
 
-@login_required
-def RecipeRequirements(request):
-    renderFormset = RecipeRequirementsForm()
-    if request.method == 'POST':
-        recievedFormset = renderFormset(request.POST)
-        deleted = False
-        data = []
-        for form in recievedFormset:
-            if not form['DELETE'].value():
-                data.append({
-                    'ingredient': form['ingredient'].value,
-                    'amount': form['amount'].value
-                })
-            else:
-                deleted = True
-        if not deleted:
-            n = len(data) + 1
+
+def manageRecipeRequirementsForm(formset):
+    data = []
+    deleted = False
+    for form in formset:
+        if not form['DELETE'].value():
+            data.append({
+                'ingredient': form['ingredient'].value,
+                'amount': form['amount'].value
+            })
         else:
-            n = len(data)
-        renderFormset = RecipeRequirementsForm(n)
-        renderFormset = renderFormset(initial=data)
-    return render(request, 'inventory/menu/recipe_requirements_form.html', {
-        'formset': renderFormset
-    })
+            deleted = True
+    n = len(data)
+    if not deleted:
+        n += 1
+    return RecipeRequirementsForm(n)(initial=data)
 
 class Menu(LoginRequiredMixin, ListView):
     model = MenuItem

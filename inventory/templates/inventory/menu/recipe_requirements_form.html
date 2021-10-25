@@ -1,7 +1,10 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block content %}
+{% block beforeform %}
+{% endblock %}
 {{ formset.management_form }}
-{{ formset.non_form_errors }}
-{{ formset.errors }}
+{{ formset.non_form_errors.as_ul }}
 {% for form in formset %}
 <li>
     <div class="card">
@@ -13,13 +16,22 @@
         <label for="{{ form.amount.id_for_label }}">Amount:</label>
         {{ form.amount }}
         <label for="{{ form.DELETE.id_for_label }}"><img class="remove btn" src="{% static 'x-square.svg' %}"></label>
-        <input onchange="refreshRecipeRequirementsForm()" type="checkbox" name="{{ form.DELETE.html_name }}" id={{ form.DELETE.id_for_label }} style="display: none;">
+        <input onchange="refreshForm()" type="checkbox" name="{{ form.DELETE.html_name }}" id={{ form.DELETE.id_for_label }} style="display: none;">
         {% for hidden in form.hidden_fields %}
             {{ hidden }}
         {% endfor %}
     </div>
 </li>
 {% endfor %}
-<li onclick="refreshRecipeRequirementsForm()" class="card add-button btn">
+<li onclick="refreshForm()" class="card add-button btn">
     +
 </li>
+
+<script>
+    function refreshForm() {
+        document.querySelector('#manage-form').click()
+    }
+</script>
+{% block afterform %}
+{% endblock %}
+{% endblock %}
