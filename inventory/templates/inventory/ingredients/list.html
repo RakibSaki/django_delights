@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Ingredients{% endblock %}
+
+{% block content %}
+<div class="addable">
+    <h1>Ingredients</h1>
+    <a href="{% url 'createingredient' %}"><button class="btn">Add</button></a>
+</div>
+<table class="table">
+    <thead>
+        <th>Name</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>In stock</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for ingredient in object_list %}
+            <tr>
+                <td>{{ ingredient.name | capfirst }}</td>
+                <td>{{ ingredient.unit }}</td>
+                <td>{{ ingredient.price }}</td>
+                <td>{{ ingredient.in_stock }} {{ ingredient.unit }}</td>
+                <td><a href="{% url 'updateingredient' ingredient.id %}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

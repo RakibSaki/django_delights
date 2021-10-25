@@ -1,0 +1,25 @@
+{% load static %}
+{{ formset.management_form }}
+{{ formset.non_form_errors }}
+{{ formset.errors }}
+{% for form in formset %}
+<li>
+    <div class="card">
+        {{ form.non_field_errors }}
+        {{ form.ingredient.errors }}
+        <label for="{{ form.ingredient.id_for_label }}">Ingredient:</label>
+        {{ form.ingredient }}
+        {{ form.amount.errors }}
+        <label for="{{ form.amount.id_for_label }}">Amount:</label>
+        {{ form.amount }}
+        <label for="{{ form.DELETE.id_for_label }}"><img class="remove btn" src="{% static 'x-square.svg' %}"></label>
+        <input onchange="refreshRecipeRequirementsForm()" type="checkbox" name="{{ form.DELETE.html_name }}" id={{ form.DELETE.id_for_label }} style="display: none;">
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+    </div>
+</li>
+{% endfor %}
+<li onclick="refreshRecipeRequirementsForm()" class="card add-button btn">
+    +
+</li>

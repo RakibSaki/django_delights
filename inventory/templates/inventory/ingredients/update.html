@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Edit {{ object.name | capfirst }}{% endblock %}
+
+{% block content %}
+<h1>Edit ingredient {{ object.name | capfirst }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+</form>
+<a href="{% url 'deleteingredient' object.id %}"><button class="btn-danger">Delete</button></a>
+{% endblock %}

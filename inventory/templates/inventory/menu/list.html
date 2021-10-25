@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Menu Items{% endblock %}
+
+{% block content %}
+<div class="addable">
+    <h1>Menu items</h1>
+    <a href="{% url 'createmenuitem' %}"><button class="btn">Add</button></a>
+</div>
+<table class="table">
+    <thead>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Ingredients</th>
+        <th>Cost</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for item in object_list %}
+        <tr>
+            <td>{{ item.name | title }}</td>
+            <td>${{ item.price }}</td>
+            <td>
+                <table class="table">
+                    {% for recipeRequirement in item.recipeRequirement.all %}
+                    <tr>
+                        <td>{{ recipeRequirement.ingredient }}</td>
+                        <td>{{ recipeRequirement.amount }} {{ recipeRequirement.ingredient.unit }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+            <td>${{ item.cost }}</td>
+            <td><a href="{% url 'deletemenuitem' item.id %}"><button class="btn-danger">Delete</button></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

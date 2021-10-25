@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Add New Menu Item{% endblock %}
+
+{% block content %}
+<h1>Add new menu item</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="horizontal-form">
+        <div>
+            {{ form.as_p }}
+        </div>
+        <div>
+            <label for="recipe-requirements">Recipe requirements:</label>
+            <ol id="recipe-requirements" class="horizontal-form">
+                <div style="display: none;">
+                    {{ formset }}
+                </div>
+            </ol>
+            <script>
+                const ingredients = document.querySelector('#recipe-requirements')
+                const form = document.querySelector('form')
+                function refreshRecipeRequirementsForm() {
+                    formdata = new FormData(form)
+                    fetch("{% url 'reciperequirementsform' %}", {
+                        method: 'POST',
+                        body: formdata
+                    })
+                    .then(response => response.text())
+                    .then(response => ingredients.innerHTML = response)
+                }
+                refreshRecipeRequirementsForm()
+            </script>
+        </div>
+
+    </div>
+    <input type="submit">
+</form>
+{% endblock %}

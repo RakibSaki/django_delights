@@ -1,0 +1,160 @@
+:root {
+    --back: #381710;
+    --golden: #f1d092;
+    --heart: #f64a2d;
+}
+
+body {
+    background-color: var(--back);
+    margin-top: 1rem;
+    font-family: 'Zen Kureniado', sans-serif;
+    position: relative;
+    min-height: calc(100vh - 19px);
+}
+
+body * {
+    color: var(--golden);
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul a:hover {
+    color: var(--heart);
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    color: inherit;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: calc(19px + 1rem);
+}
+
+form p {
+    display: flex;
+    justify-content: space-between;
+}
+
+label {
+    border-left: 1px solid var(--golden);
+    padding: 0 5px;
+    
+}
+
+.card label {
+    border-left: none;
+    padding-left: 0;
+}
+
+.horizontal-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+footer {
+    font-size: small;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 19px;
+}
+
+footer span {
+    color: var(--heart);
+}
+
+.addable {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+h1 {
+    margin-right: 1rem;
+}
+
+.btn, .btn-primary, .btn-secondary {
+    background-color: var(--heart);
+    color: white;
+    border-color: var(--heart);
+}
+
+.btn:hover, .btn-primary:hover, .btn-secondary:hover {
+    background-color: var(--golden);
+    color: var(--back);
+    border-color: var(--golden);
+}
+
+.remove {
+    padding: 0;
+}
+
+input, select, option {
+    background-color: var(--golden);
+    color: black;
+    font-weight: bold;
+    border-color: var(--golden);
+}
+
+input[type='submit'] {
+    background-color: var(--heart);
+    color: white;
+    border-color: var(--heart);
+}
+
+.card {
+    width: max-content;
+    background-color: inherit;
+    border-color: var(--golden);
+    padding: 1rem;
+}
+
+#recipe-requirements {
+    display: flex;
+}
+#recipe-requirements li {
+    margin: 1rem;
+}
+#recipe-requirements ::marker {
+    color: var(--heart);
+}
+
+.add-button {
+    background-color: var(--golden);
+    color: var(--back);
+    font-weight: 900;
+}
+
+.add-button:hover {
+    background-color: var(--back);
+    color: var(--golden);
+    border-color: var(--golden);
+}
+
+@font-face {
+    font-family: 'Zen Kureniado';
+    src: url('./Zen_Kurenaido/ZenKurenaido-Regular.ttf');
+}

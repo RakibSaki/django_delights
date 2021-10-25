@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titlebar %}{% endblock %} | Django Delights IMS</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" href="{% static 'logo.png' %}">
+</head>
+<body class="container-lg">
+    <header>
+        <nav>
+            <a href="{% url 'home' %}">
+                <img src="{% static 'logo.png' %}" width="150" alt="logo">
+            </a>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'ingredients' %}">Ingredients</a></li>
+                <li><a href="{% url 'menu' %}">Menu</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <span>- Django Delights Inventory Management System -</span>
+    </footer>
+</body>
+</html>
