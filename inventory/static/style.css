@@ -10,6 +10,7 @@ body {
     font-family: 'Zen Kureniado', sans-serif;
     position: relative;
     min-height: calc(100vh - 19px);
+    font-size: 1.2rem;
 }
 
 body * {
@@ -24,6 +25,7 @@ nav {
 
 nav ul {
     list-style-type: none;
+    margin-bottom: 0;
 }
 
 nav ul a:hover {
@@ -94,6 +96,7 @@ footer span {
 
 h1 {
     margin-right: 1rem;
+    text-align: center;
 }
 
 .btn, .btn-primary, .btn-secondary {
@@ -108,8 +111,51 @@ h1 {
     border-color: var(--golden);
 }
 
+.btn-danger, .btn.btn-danger {
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--heart),
+        var(--heart) 9px,
+        var(--back) 9px,
+        var(--back) 10px
+    );
+}
+
+.btn-danger:hover, .btn.btn-danger:hover {
+    border-radius: 5px;
+    border: none;
+    color: var(--back);
+    background: repeating-linear-gradient(
+        45deg,
+        var(--golden),
+        var(--golden) 9px,
+        var(--heart) 9px,
+        var(--heart) 10px
+    );
+}
+
+/* .btn.danger {
+    background-color: var(--golden);
+    color: var(--back);
+    border-color: var(--heart);
+    box-shadow: 5px 2px var(--heart);
+}
+
+.btn.danger:hover {
+    background-color: var(--heart);
+    color: var(--golden);
+    border-color: var(--heart);
+} */
+
 .remove {
     padding: 0;
+}
+
+input, select {
+    border-radius: 5px;
 }
 
 input, select, option {
@@ -152,6 +198,102 @@ input[type='submit'] {
     background-color: var(--back);
     color: var(--golden);
     border-color: var(--golden);
+}
+
+.small {
+    padding: 0 5px;
+}
+
+.table {
+    border-color: var(--golden);
+    text-align: center;
+}
+
+.justified {
+    display: flex;
+    justify-content: space-around;
+}
+
+#cost-panel {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+#cost-panel dd {
+    margin-left: 5px;
+}
+
+.horizontal-links {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.home-link {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    margin: 1rem 0;
+    border: double 10px var(--golden);
+}
+
+@media screen and (max-width: 420px) {
+    .home-link {
+        width: 100%;
+    }
+}
+
+.home-link:hover {
+    cursor: pointer;
+    border-color: var(--heart);
+    background-color: var(--golden);
+}
+
+.home-link:hover * {
+    color: var(--back);
+}
+
+.card-title {
+    font-size: xx-large;
+    text-align: center;
+}
+
+.card-back {
+    font-size: 14px;
+    width: 348px;
+    height: 248px;
+}
+
+.home-link .btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.home-link .btn:hover {
+    border-color: var(--heart);
+    background-color: transparent;
+}
+
+.information {
+    cursor: pointer;
+}
+
+.logout {
+    position: absolute;
+    right: 3rem;
+    top: 0.2rem;
+}
+
+@media screen and (min-width: 610px) {
+    .right {
+        position: absolute;
+        right: 3rem;
+    }
 }
 
 @font-face {

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Inventory{% endblock %}
+
+{% block content %}
+    <div class="addable">
+        <h1>Inventory</h1>
+        <a href="{% url 'addinventory' %}"><button class="btn">Add</button></a>
+        <a href="{% url 'restock' %}" class="right"><button class="btn">Restock for tomorrow</button></a>
+    </div>
+<table class="table">
+    <thead>
+        <th>Ingredient</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>In stock</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for ingredient in in_stock %}
+            <tr>
+                <td>{{ ingredient.name | capfirst }}</td>
+                <td>{{ ingredient.unit }}</td>
+                <td>{{ ingredient.price }}</td>
+                <td>{{ ingredient.in_stock | floatformat:3 }} {{ ingredient.unit }}</td>
+                <td><a href="{% url 'addinventory' ingredient.id %}"><button class="btn">Stock up</button></a></td>
+                <td><a href="{% url 'updateingredient' ingredient.id %}"><button class="btn">Edit</button></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if out_of_stock %}
+
+<hr style="width: 75%; margin-bottom: 0;">
+
+<p id="hide" class="btn small" style="position: relative; top: -13px; height: 26px; margin: 0;">hide</p>
+<table class="table" id="unavailable">
+    <thead>
+        <th>Ingredient</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>In stock</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for ingredient in out_of_stock %}
+            <tr>
+                <td>{{ ingredient.name | capfirst }}</td>
+                <td>{{ ingredient.unit }}</td>
+                <td>{{ ingredient.price }}</td>
+                <td>{{ ingredient.in_stock }} {{ ingredient.unit }}</td>
+                <td><a href="{% url 'addinventory' ingredient.id %}"><button class="btn">Stock up</button></a></td>
+                <td><a href="{% url 'updateingredient' ingredient.id %}"><button class="btn">Edit</button></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<script>
+    hide = document.querySelector('#hide')
+    unavailable = document.querySelector('#unavailable')
+    hide.addEventListener('click', () => {
+        if (hide.innerHTML == 'hide') {
+            unavailable.hidden = true
+            hide.innerHTML = 'show'
+        } else {
+            unavailable.hidden = false
+            hide.innerHTML = 'hide'
+        }
+    })
+</script>
+{% endblock %}

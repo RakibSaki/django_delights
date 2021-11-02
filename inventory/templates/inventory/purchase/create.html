@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Record New Purchase{% endblock %}
+
+{% block content %}
+<h1>Record new purchase</h1>
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Record">
+</form>
+{% endblock %}

@@ -4,9 +4,21 @@
 
 {% block content %}
 <h1>Delete {{ object.name | capfirst }} from menu?</h1>
+{% if object.sale.first %}
+<p>This item has associated sales records. Deleting will erase those records.</p>
+{% endif %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Yes">
 </form>
+{% if object.sale.first %}
+<hr width="75%">
+<p>This item has the following sales records:</p>
+{% endif %}
+{% for purchase in object.sale.all %}
+    <tr>
+        <td><p>{{ purchase }}</p></td>
+    </tr>
+{% endfor %}
 {% endblock %}

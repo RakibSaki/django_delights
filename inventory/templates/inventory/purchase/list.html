@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Sales Log{% endblock %}
+
+{% block content %}
+<div class="addable">
+    <h1>Sales log</h1>
+    <a href="{% url 'createpurchase' %}"><button class="btn">Add</button></a>
+</div>
+<table class="table">
+    <thead>
+        <th>Menu Item</th>
+        <th>Units</th>
+        <th>Total</th>
+        <th>Profit</th>
+        <th>Time</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for purchase in object_list %}
+            <tr>
+                <td>{{ purchase.menu_item }}</td>
+                <td>{{ purchase.amount }}</td>
+                <td>${{ purchase.total }}</td>
+                <td>${{ purchase.profit }}</td>
+                <td>{{ purchase.time }}</td>
+                <td><a href="{% url 'updatepurchase' purchase.id %}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,8 +1,6 @@
 from django import forms
-from django.db import models
-from django.forms import fields
 
-from .models import Ingredient, MenuItem, RecipeRequirement
+from .models import Ingredient, MenuItem, Purchase, RecipeRequirement
 
 class IngredientForm(forms.ModelForm):
     class Meta:
@@ -14,8 +12,22 @@ class MenuItemForm(forms.ModelForm):
         model = MenuItem
         fields = '__all__'
 
-def RecipeRequirementsForm(extra=0):
-    if extra:
+def RecipeRequirementsForm(extra=None, max_num=None):
+    if extra != None:
         return forms.inlineformset_factory(MenuItem, RecipeRequirement, fields=('ingredient', 'amount'), extra=extra)
-    else:
-        return forms.inlineformset_factory(MenuItem, RecipeRequirement, fields=('ingredient', 'amount'))
+    return forms.inlineformset_factory(MenuItem, RecipeRequirement, fields=('ingredient', 'amount'))
+
+class AddInventoryForm(forms.ModelForm):
+    class Meta:
+        model = RecipeRequirement
+        exclude = ('menuItem',)
+
+class PurchaseForm(forms.ModelForm):
+    class Meta:
+        model = Purchase
+        fields = '__all__'
+
+class CreatePurchaseForm(forms.ModelForm):
+    class Meta:
+        model = Purchase
+        exclude = ('total', 'profit')

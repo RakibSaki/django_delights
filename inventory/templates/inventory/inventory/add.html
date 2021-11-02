@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Stock Up Inventory{% endblock %}
+
+{% block content %}
+<h1>Stock up inventory</h1>
+<div id="cost-panel">
+    <dt>Cost:</dt>
+    <dd>$<span id="cost">0</span></dd>
+</div>
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_form_errors.as_ul }}
+    {{ form.non_field_errors }}
+    <p>
+        {{ form.ingredient.errors }}
+        <label for="{{ form.ingredient.id_for_label }}">Ingredient:</label>
+        {{ form.ingredient }}
+    </p>
+    <p>
+        {{ form.amount.errors }}
+        <label for="{{ form.amount.id_for_label }}">Amount:</label>
+        {{ form.amount }}
+    </p>
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+    <input type="submit" value="Add">
+</form>
+<script>
+    document.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('change', () => {
+            getCost()
+        })
+        element.addEventListener('keyup', () => {
+            getCost()
+        })
+    })
+    function getCost() {
+        formdata = new FormData(document.querySelector('form'))
+        fetch("{% url 'inventorycost' %}", {
+            method: 'POST',
+            body: formdata
+        })
+        .then(response => response.text())
+        .then(response => {
+            if (response) {
+                document.querySelector('#cost').innerHTML = response
+            }
+        })
+    }
+    getCost()
+</script>
+{% endblock %}

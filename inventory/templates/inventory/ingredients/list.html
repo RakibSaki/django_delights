@@ -21,8 +21,8 @@
                 <td>{{ ingredient.name | capfirst }}</td>
                 <td>{{ ingredient.unit }}</td>
                 <td>{{ ingredient.price }}</td>
-                <td>{{ ingredient.in_stock }} {{ ingredient.unit }}</td>
-                <td><a href="{% url 'updateingredient' ingredient.id %}">Edit</a></td>
+                <td>{{ ingredient.in_stock | floatformat:3 }} {{ ingredient.unit }}</td>
+                <td><a href="{% url 'updateingredient' ingredient.id %}"><button class="btn">Edit</button></a></td>
             </tr>
         {% endfor %}
     </tbody>

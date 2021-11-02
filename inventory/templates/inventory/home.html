@@ -3,5 +3,101 @@
 {% block titlebar %}Home{% endblock %}
 
 {% block content %}
-<h1>Hi</h1>
+<h1>Welcome to Django Delights restaurant inventory management system</h1>
+<div class="container-sm horizontal-links">
+    <div class="card home-link">
+        <div class="card-back" style="position: absolute;" hidden="true">
+            <button class="btn"><a href="{% url 'purchases' %}">All</a></button>
+            <table class="table">
+                <thead>
+                    <th>Menu Item</th>
+                    <th>Units</th>
+                    <th>Total</th>
+                    <th>Profit</th>
+                    <th>Time</th>
+                </thead>
+                <tbody>
+                    {% for purchase in purchases %}
+                        <tr>
+                            <td>{{ purchase.menu_item }}</td>
+                            <td>{{ purchase.amount }}</td>
+                            <td>${{ purchase.total }}</td>
+                            <td>${{ purchase.profit }}</td>
+                            <td>{{ purchase.time }}</td>
+                        </tr>
+                    {% empty %}
+                        No purchases today!
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-front card-title">Today's sales<br>Revenue: ${{ total }}<br>Profit: ${{ profit }}</div></div>
+    <div class="card home-link">
+        <div class="card-back" style="position: absolute;" hidden="true">
+            <button class="btn"><a href="{% url 'inventory' %}">Inventory</a></button>
+            <table class="table">
+                <thead>
+                    <th>Name</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>In stock</th>
+                    <th>Stock value</th>
+                </thead>
+                <tbody>
+                    {% for ingredient in ingredients %}
+                        <tr>
+                            <td>{{ ingredient.name | capfirst }}</td>
+                            <td>{{ ingredient.unit }}</td>
+                            <td>{{ ingredient.price }}</td>
+                            <td>{{ ingredient.in_stock | floatformat:3 }} {{ ingredient.unit }}</td>
+                            <td>{{ ingredient.value | floatformat:2 }}</td>
+                        </tr>
+                    {% empty %}
+                        Inventory empty!
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-front card-title">Current value of Inventory: ${{ value }}</div>
+    </div>
+    <div class="card home-link">
+        <div class="card-back" style="position: absolute;" hidden="true">
+            <button class="btn"><a href="{% url 'restock' %}">Restock</a></button>
+            <table class="table">
+                <thead>
+                    <th>Ingredient</th>
+                    <th>Price</th>
+                    <th>In stock</th>
+                    <th>Restock</th>
+                    <th>Cost</th>
+                </thead>
+                <tbody>
+                    {% for ingredient in restock_ingredients %}
+                        <tr>
+                            <td>{{ ingredient.name | capfirst }}</td>
+                            <td>${{ ingredient.price }}</td>
+                            <td>{{ ingredient.in_stock | floatformat:3 }} {{ ingredient.unit }}</td>
+                            <td>{{ ingredient.restock }} {{ ingredient.unit }}</td>
+                            <td>${{ ingredient.cost }}</td>
+                        </tr>
+                    {% empty %}
+                    Guess you don't need to restock anything, you're ready for tomorrow!
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-front card-title">Tomorrow's predicted restock cost: ${{ restock }}</div>
+    </div>
+</div>
+<script>
+    links = document.querySelectorAll('.home-link')
+    backs = document.querySelectorAll('.card-back')
+    fronts = document.querySelectorAll('.card-front')
+    for (let i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', e => {
+            backs[i].hidden = !backs[i].hidden
+            fronts[i].hidden = !fronts[i].hidden
+        })
+    }
+</script>
 {% endblock %}

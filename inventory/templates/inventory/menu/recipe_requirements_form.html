@@ -3,9 +3,14 @@
 {% block content %}
 {% block beforeform %}
 {% endblock %}
+<div id="cost-panel">
+    <dt>Cost:</dt>
+    <dd>$<span id="cost"></span></dd>
+</div>
 {{ formset.management_form }}
 {{ formset.non_form_errors.as_ul }}
 {% for form in formset %}
+{% if not form.DELETE.value %}
 <li>
     <div class="card">
         {{ form.non_field_errors }}
@@ -22,6 +27,7 @@
         {% endfor %}
     </div>
 </li>
+{% endif %}
 {% endfor %}
 <li onclick="refreshForm()" class="card add-button btn">
     +
@@ -31,6 +37,24 @@
     function refreshForm() {
         document.querySelector('#manage-form').click()
     }
+    document.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('change', () => {
+            getCost()
+        })
+        element.addEventListener('keyup', () => {
+            getCost()
+        })
+    })
+    function getCost() {
+        formdata = new FormData(document.querySelector('form'))
+        fetch("{% url 'cost' %}", {
+            method: 'POST',
+            body: formdata
+        })
+        .then(response => response.text())
+        .then(response => document.querySelector('#cost').innerHTML = response)
+    }
+    getCost()
 </script>
 {% block afterform %}
 {% endblock %}

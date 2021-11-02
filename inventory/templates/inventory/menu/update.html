@@ -1,9 +1,9 @@
 {% extends 'inventory/menu/recipe_requirements_form.html' %}
 
-{% block titlebar %}Add New Menu Item{% endblock %}
+{% block titlebar %}Edit {{ object.name | capfirst }}{% endblock %}
 
 {% block beforeform %}
-<h1>Add new menu item</h1>
+<h1>Edit {{ object.name }} in menu</h1>
 <form method="post">
     {% csrf_token %}
     <div class="horizontal-form">
@@ -29,7 +29,8 @@
             </ol>
         </div>
     </div>
-    <input formaction="{% url 'createmenuitem' %}" id="manage-form" type="submit" style="display: none;" formnovalidate>
-    <input formaction="{% url 'createmenuitem' 'create' %}" type="submit" class="btn">
+    <input formaction="{% url 'updatemenuitem' object.id %}" id="manage-form" type="submit" style="display: none;" formnovalidate>
+    <input formaction="{% url 'updatemenuitem' object.id 'update' %}" class="btn" type="submit">
 </form>
+<a href="{% url 'deletemenuitem' object.id %}"><button class="btn btn-danger">Delete</button></a>
 {% endblock %}

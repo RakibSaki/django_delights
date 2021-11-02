@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Logout{% endblock %}
+
+{% block content %}
+<h1>Logout?</h1>
+<a href="{% url 'logout' %}"><button class="btn">Yes</button></a>
+{% endblock %}

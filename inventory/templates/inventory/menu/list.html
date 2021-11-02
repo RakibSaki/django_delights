@@ -11,17 +11,18 @@
     <thead>
         <th>Name</th>
         <th>Price</th>
-        <th>Ingredients</th>
+        <th><div class="justified"><span class="ingredients first">Ingredients</span><span id="toggle-ingredients" class="btn small" onclick="hideIngredients()">hide</span></div></th>
         <th>Cost</th>
+        <th></th>
         <th></th>
     </thead>
     <tbody>
-        {% for item in object_list %}
+        {% for item in object_list|dictsort:"name" %}
         <tr>
-            <td>{{ item.name | title }}</td>
+            <td>{{ item.name }}</td>
             <td>${{ item.price }}</td>
             <td>
-                <table class="table">
+                <table class="table ingredients">
                     {% for recipeRequirement in item.recipeRequirement.all %}
                     <tr>
                         <td>{{ recipeRequirement.ingredient }}</td>
@@ -30,10 +31,28 @@
                     {% endfor %}
                 </table>
             </td>
-            <td>${{ item.cost }}</td>
-            <td><a href="{% url 'deletemenuitem' item.id %}"><button class="btn-danger">Delete</button></a></td>
+            <td>${{ item.cost | floatformat:3 }}</td>
+            <td><a href="{% url 'createpurchase' item.id %}"><button class="btn">Purchase</button></a></td>
+            <td><a href="{% url 'updatemenuitem' item.id %}"><button class="btn">Edit</button></a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<script>
+    ingredients = document.querySelectorAll('.ingredients')
+    toggle = document.querySelector('#toggle-ingredients')
+    function hideIngredients() {
+        if (toggle.innerHTML == 'hide') {
+            ingredients.forEach(element => {
+                element.hidden = true
+            });
+            toggle.innerHTML = 'show'
+        } else {
+            ingredients.forEach(element => {
+                element.hidden = false
+            });
+            toggle.innerHTML = 'hide'
+        }
+    }
+</script>
 {% endblock %}

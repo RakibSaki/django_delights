@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block titlebar %}Restock{% endblock %}
+
+{% block content %}
+<h1>Tomorrow's estimated restock requirements <small class="information"><acronym title="Based on purchases in last 24 hours">&#8505;</acronym></small></h1>
+<p class="hide" hidden="true">Estimates similar sales as yesterday for rest of today, without any restock. And similar sales as last 24 hours for tomorrow.</p>
+<table class="table">
+    <thead>
+        <th>Ingredient</th>
+        <th>Price</th>
+        <th>In stock</th>
+        <th>Restock</th>
+        <th>Cost</th>
+        <th>Stock up</th>
+    </thead>
+    <tbody>
+        {% for ingredient in ingredients %}
+            <tr>
+                <td>{{ ingredient.name | capfirst }}</td>
+                <td>${{ ingredient.price }}</td>
+                <td>{{ ingredient.in_stock | floatformat:3 }} {{ ingredient.unit }}</td>
+                <td>{{ ingredient.restock }} {{ ingredient.unit }}</td>
+                <td>${{ ingredient.cost }}</td>
+                <td><a href="{% url 'addinventory' ingredient.id %}"><button class="btn">Stock up</button></a></td>
+            </tr>
+        {% empty %}
+        Guess you don't need to restock anything, you're ready for tomorrow!
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    hide = document.querySelector('.hide')
+    document.querySelector('.information').addEventListener('click', () => {
+        hide.hidden = !hide.hidden
+    })
+</script>
+{% endblock %}
