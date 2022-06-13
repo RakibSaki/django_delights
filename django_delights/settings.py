@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f-8*zytir%^(1mh!8x#uuop^kcq+iy)pae$73c_ab(#0r)#_rl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sakidjangodelights.herokuapp.com']
+ALLOWED_HOSTS = ['sakidjangodelights.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -120,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 import os
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'inventory/static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
